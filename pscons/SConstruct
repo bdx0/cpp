@@ -1,0 +1,33 @@
+import platform
+print platform.system()
+env = Environment()
+print env['CC']
+# Tell SCons to create our build files in the 'build' directory
+VariantDir('build', 'src', duplicate=0)
+
+# Set our source files
+source_files = Glob('build/*.cpp', 'build/*.h')
+
+# Set our required libraries
+libraries = ['pthread']
+library_paths = ''
+
+env = Environment(platform='cygwin')
+# env.Tool('crossmingw', toolpath = ['scons-tools'])
+# env.Tool('mingw')
+dict = env.Dictionary()
+keys = dict.keys()
+keys.sort()
+for key in keys:
+    pass
+# print "construction variable = '%s', value = '%s'" % (key, dict[key])
+# Set our g++ compiler flags
+
+env.Replace(CXX='i686-pc-mingw32-gcc')
+env.Replace(CFLAGS=[])
+env.Replace(CCFLAGS=[])
+env.Replace(CPPFLAGS=['-std=c++11', '-pthread', '-Wall', '-g'] )
+env.Replace(CXXFLAGS=[])
+
+# Tell SCons the program to build
+env.Program('build/hello', source_files, LIBS = libraries, LIBPATH = library_paths)
