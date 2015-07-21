@@ -1,4 +1,5 @@
 .venv
 .sconsign.dblite
 build
+build2
 *.pyc

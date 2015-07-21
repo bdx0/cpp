@@ -7,7 +7,7 @@ int fib(int num){
     a = 0;
     b = 1;
     printf("%d", b);
-    for (int i = 0; i + a <= atof(num); b = i){
+    for (int i = 0; i + a <= num; b = i){
         i = a + b;
         a = b;
         printf(", %d", i);
