@@ -1,0 +1,6 @@
+// Look Google doesn't use Maven Central, they use jcenter now.
+allprojects {
+    repositories {
+        jcenter()
+    }
+}

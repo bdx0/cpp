@@ -1,0 +1,9 @@
+apply plugin: "cpp"
+
+executables {
+    hello {
+        spec {
+            args "-fno-access-control", "-fconserve-space"
+        }
+    }
+}

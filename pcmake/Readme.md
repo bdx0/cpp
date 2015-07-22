@@ -13,6 +13,20 @@
 - http://mirkokiefer.com/blog/2013/03/cmake-by-example/
 - http://www.cmake.org/cmake-tutorial/
 - http://www.guyrutenberg.com/2013/01/29/vim-creating-clang_complete-using-cmake/
+- http://stackoverflow.com/questions/26782187/run-a-target-from-a-custom-target-in-cmake
+- http://stackoverflow.com/questions/13920072/cmake-always-run-command-regardless-of-any-dependency
+- http://graphics.pixar.com/opensubdiv/docs/cmake_build.html
+- https://cognitivewaves.wordpress.com/cmake-and-visual-studio/
+- http://www.vtk.org/Wiki/CMake_Cross_Compiling
+- https://www.hdfgroup.org/HDF5/release/cmakebuild.html
+- http://www.cmake.org/cmake-tutorial/
+- http://www.drdobbs.com/cpp/the-cmake-build-manager/184405251
+
+
+
 
 ## Some trick 
 CC="D:/dbduy0206/dbd-home/vimfiles/bundle/clang_complete/bin/cc_args.py clang++" cmake
+
+## pCmake
+ The purpose is make a simple project with cmake include: build & run

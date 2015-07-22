@@ -1,0 +1,21 @@
+apply plugin: "cpp"
+// http://georgik.sinusgear.com/wp-content/talks/2014-04-28-gradle-and-build-systems-for-c-language/pdf/2014-04-28-gradle-and-build-systems-for-c-language.pdf
+// http://www.hellsoft.se/android/android-ndk-and-the-gradle-build-system
+// http://carlosvin.github.io/en/posts/gradle-cpp.html
+// http://ph0b.com/android-studio-gradle-and-ndk-integration
+// http://www.sureshjoshi.com/mobile/android-ndk-in-android-studio-with-swig/
+// https://dzone.com/articles/cross-language-benchmarking-%E2%80%93
+// https://docs.gradle.org/current/userguide/nativeBinaries.html
+model {
+    components {
+        hello(NativeExecutableSpec){
+            sources {
+                cpp {
+                    source {
+                        srcDir "src/hello/cpp/"
+                    }
+                }
+            }
+        }
+    }
+}
