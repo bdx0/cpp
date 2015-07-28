@@ -17,5 +17,76 @@ model {
                 }
             }
         }
+        main(NativeExecutableSpec){
+        }
     }
+}
+
+binaries.withType(NativeExecutableSpec) { 
+   println it.sharedLibraryFile
+   println it.tasks
+}
+
+binaries.withType(SharedLibraryBinarySpec) { 
+   println it.sharedLibraryFile
+   println it.tasks
+}
+
+binaries.withType(StaticLibraryBinarySpec) { 
+   println it.staticLibraryFile
+   println it.tasks
+}
+
+task run(dependsOn: 'installHelloExecutable') << {
+    println project.buildscript.sourceFile
+    println tasks.findByName("installHelloExectable").files
+}
+
+task run1(dependsOn: 'installHelloExecutable') << {
+    println 'I\'m a running task'
+    println project.buildscript.sourceFile
+    println System.getProperty('user.dir')
+    println buildFile
+    println buildFile.parent
+    println projectDir
+}
+
+
+// Example about custom task
+// http://www.drdobbs.com/jvm/writing-build-scripts-with-gradle/240168648
+
+task hello(type: Exec) << {
+  executable "sh"
+  args "-c", "echo 'hello from your shell'"
+}
+def doMyThing(String target) {
+    exec {
+        executable "something.sh"
+        args "-t", target
+    }
+}
+
+task doIt << {
+    doLast {
+        doMyThing("/tmp/foo")
+        doMyThing("/tmp/gee")
+    }
+}
+
+task stopTomcat(type:Exec) << {
+  workingDir '../tomcat/bin'
+
+  //on windows:
+  commandLine 'cmd', '/c', 'stop.bat'
+
+  //on linux
+  commandLine './stop.sh'
+
+  //store the output instead of printing to the console:
+  standardOutput = new ByteArrayOutputStream()
+
+  //extension method stopTomcat.output() can be used to obtain the output:
+  ext.output = {
+    return standardOutput.toString()
+  }
 }

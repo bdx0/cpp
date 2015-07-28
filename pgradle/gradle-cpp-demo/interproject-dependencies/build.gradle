@@ -1,0 +1,18 @@
+project(":hello-lib") {
+    apply plugin: "cpp-lib"
+}
+
+project(":exe") {
+    apply plugin: "cpp-exe"
+    cpp {
+        sourceSets {
+            main {
+                libs << project(":hello-lib").libraries.main
+            }
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    distributionUrl = "http://repo.gradle.org/gradle/distributions-snapshots/gradle-1.0-rc-1-20110811124234+0200-bin.zip"
+}
