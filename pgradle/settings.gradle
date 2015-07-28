@@ -1,2 +1,4 @@
 include 'app'
 include 'ex1'
+include 'jex1'
+include 'cex1'
