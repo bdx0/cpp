@@ -1,0 +1,5 @@
+// path: build.gradle
+
+apply plugin: 'war'
+apply plugin: 'jetty'
+

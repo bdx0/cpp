@@ -1,0 +1,8 @@
+apply plugin: 'cpp'
+
+task wrapper(type: Wrapper)
+
+executables {
+    main {
+    }
+}

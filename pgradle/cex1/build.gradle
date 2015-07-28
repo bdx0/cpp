@@ -1,0 +1,35 @@
+// https://github.com/gradle/gradle/blob/master/design-docs/continuous-delivery-for-c-plus-plus.md 
+// http://linux2biz.net/245595/changing-cunit-source-set-within-gradle-build-script
+// http://ameblo.jp/androideyes/entry-11843299750.html
+// https://discuss.gradle.org/t/gradle-2-5-google-test-plugin-tries-to-compile-tests-for-incorrect-platform/10590
+// https://github.com/Unidata/UDUNITS-2/blob/master/build.gradle
+// http://svn.constellio.com/constellio/branches/adel/build.gradle
+// http://stackoverflow.com/questions/29907601/compile-c-code-in-gradle-using-cpp-plugin
+// http://blog.comsysto.com/2015/03/30/cross-language-benchmarking-gradle-loves-native-binaries-2/
+// http://carlosvin.github.io/en/posts/gradle-cpp.html#c-application
+model {
+    repositories {
+        prebuilt {
+            boost_regex {
+                headers {
+                    srcDir '../../libs/boost_1_55_0/boost'
+                }
+                targetPlatforms "x86", "x64"
+                binaries.all { binary ->
+                    // Locate the exact boost binary required
+                    if (binary.toolChain.visualCpp) {
+                        outputFile = file("../../libs/boost_1_55_0/lib/libboost_regex-vc71-mt-d-1_34.lib")
+                    } else {
+                        outputFile = file("../../libs/boost_1_55_0/lib/libboost_regex-gcc71-mt-d-1_34.a")
+                    }
+                }
+            }
+        }
+    }
+    components {
+        main(NativeExecutableSpec){
+        }
+    }
+    sources.main.cpp.lib library: 'boost_regex'
+}
+

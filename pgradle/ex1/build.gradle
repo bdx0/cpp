@@ -6,6 +6,7 @@ apply plugin: "cpp"
 // http://www.sureshjoshi.com/mobile/android-ndk-in-android-studio-with-swig/
 // https://dzone.com/articles/cross-language-benchmarking-%E2%80%93
 // https://docs.gradle.org/current/userguide/nativeBinaries.html
+// http://arveknudsen.com/?p=163%3Fpage_id%3D163&print=print
 model {
     components {
         hello(NativeExecutableSpec){
@@ -16,41 +17,64 @@ model {
                     }
                 }
             }
+            binaries.all { binary -> 
+                binary.tasks.all {
+                    if (it.getName() == "installDebugCommunityHelloExecutable") {
+                    println it.outputs.files.files
+                    }
+                }
+            }
         }
         main(NativeExecutableSpec){
         }
     }
+   
+    buildTypes {
+        debug
+        release
+    }
+
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x86_64"
+        }
+        itanium {
+            architecture "ia-64"
+        }
+    }
+
+    flavors {
+        community
+        enterprise
+    }
+
 }
 
-binaries.withType(NativeExecutableSpec) { 
-   println it.sharedLibraryFile
-   println it.tasks
+
+task run(dependsOn: 'installDebugCommunityHelloExecutable') << {
+    println "======== Run ============"
+    def installed_dir = tasks.findByName('installDebugCommunityHelloExecutable').outputs.files.files[0]
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        workingDir installed_dir
+        commandLine 'cmd', '/c', 'hello.bat'
+        standardOutput  = stdout;
+    } 
+    println "Ouput:\n$stdout";
 }
 
-binaries.withType(SharedLibraryBinarySpec) { 
-   println it.sharedLibraryFile
-   println it.tasks
-}
-
-binaries.withType(StaticLibraryBinarySpec) { 
-   println it.staticLibraryFile
-   println it.tasks
-}
-
-task run(dependsOn: 'installHelloExecutable') << {
-    println project.buildscript.sourceFile
-    println tasks.findByName("installHelloExectable").files
-}
-
-task run1(dependsOn: 'installHelloExecutable') << {
+task run1(dependsOn: 'build') << {
     println 'I\'m a running task'
+    println '$buildDir'
     println project.buildscript.sourceFile
     println System.getProperty('user.dir')
     println buildFile
     println buildFile.parent
     println projectDir
 }
-
 
 // Example about custom task
 // http://www.drdobbs.com/jvm/writing-build-scripts-with-gradle/240168648
@@ -73,6 +97,7 @@ task doIt << {
     }
 }
 
+// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
 task stopTomcat(type:Exec) << {
   workingDir '../tomcat/bin'
 
